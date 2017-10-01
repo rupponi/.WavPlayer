@@ -16,9 +16,12 @@ public class MP3Player implements Runnable {
     private URL songURL;
     private Player songPlayer;
     private AudioFileFormat songData;
+    private volatile boolean status;
 
     protected MP3Player() {
         try {
+            status = true;
+
             songFile = new File("C://Java Projects/MusicPlayer/ImABoss.wav");
             songData = AudioSystem.getAudioFileFormat(songFile);
 
@@ -33,15 +36,23 @@ public class MP3Player implements Runnable {
         }
     }
 
+    public void run() {//Run method simply begins stream. Stopping this will restart the song, similar to stop button in music player.
+        songPlayer.start();
+        while (status) {
+            //Do nothing.
+        }
+    }
+
+    public void stop() {
+        status = false;
+    }
+
+
     Player getSongPlayer() {
         return songPlayer;
     }
 
-    void play() {
-        System.out.println(songData);
-    }
-
-    public void run() {
-        songPlayer.start();
+    AudioFileFormat getSongData() {
+        return songData;
     }
 }
