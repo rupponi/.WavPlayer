@@ -7,18 +7,20 @@ import java.net.MalformedURLException;
 import java.io.IOException;
 import java.io.File;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.AudioFileFormat;
 
-public class MP3_Player {
+public class MP3Player implements Runnable {
 
     private File songFile;
     private Path songPath;
     private URL songURL;
     private Player songPlayer;
+    private AudioFileFormat songData;
 
-    protected MP3_Player () {
+    protected MP3Player() {
         try {
             songFile = new File("C://Java Projects/MusicPlayer/ImABoss.wav");
-            System.out.println(AudioSystem.getAudioFileFormat(songFile));
+            songData = AudioSystem.getAudioFileFormat(songFile);
 
             songPath = Paths.get("C:/","Java Projects/MusicPlayer/ImABoss.wav");
             songURL = songPath.toUri().toURL();
@@ -31,11 +33,15 @@ public class MP3_Player {
         }
     }
 
-    public Player getSongPlayer() {
+    Player getSongPlayer() {
         return songPlayer;
     }
 
     void play() {
-        //For later.
+        System.out.println(songData);
+    }
+
+    public void run() {
+        songPlayer.start();
     }
 }
