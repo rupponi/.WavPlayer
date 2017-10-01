@@ -1,34 +1,41 @@
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.media.Manager;
-import javax.media.NoPlayerException;
-import javax.media.CannotRealizeException;
+import javax.media.Player;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.io.IOException;
 import java.io.File;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class MP3_Player {
-    public static void main(String[] args) {
+
+    private File songFile;
+    private Path songPath;
+    private URL songURL;
+    private Player songPlayer;
+
+    protected MP3_Player () {
         try {
-            File songFile = new File("C://Java Projects/MusicPlayer/ImABoss.wav");
+            songFile = new File("C://Java Projects/MusicPlayer/ImABoss.wav");
             System.out.println(AudioSystem.getAudioFileFormat(songFile));
 
-            Path songPath = Paths.get("C:","Java Projects/MusicPlayer/ImABoss.wav");
-            URL songURL = songPath.toUri().toURL();
-            Manager.createRealizedPlayer(songURL).start();
-        } catch (MalformedURLException mx) {
-            mx.printStackTrace();
-        } catch (IOException ex) {
-            System.out.println(ex);
-        } catch (NoPlayerException nx) {
-            nx.printStackTrace();
-        } catch (CannotRealizeException cx) {
-            cx.printStackTrace();
-        } catch (UnsupportedAudioFileException ux) {
-            ux.printStackTrace();
+            songPath = Paths.get("C:/","Java Projects/MusicPlayer/ImABoss.wav");
+            songURL = songPath.toUri().toURL();
+            songPlayer = Manager.createRealizedPlayer(songURL);
+
+        } catch (IOException ix) {//Printing out IOExceptions.
+            System.out.println(ix);
+        } catch (Exception ex) {//Generalized Exception catch for all other Exceptions to print stack trace.
+            ex.printStackTrace();
         }
+    }
+
+    public Player getSongPlayer() {
+        return songPlayer;
+    }
+
+    void play() {
+        //For later.
     }
 }
