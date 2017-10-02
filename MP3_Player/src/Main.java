@@ -3,5 +3,6 @@ public class Main {
         MP3Controller controller = new MP3Controller();
 
         controller.play();
+        System.exit(0);
     }
 }
