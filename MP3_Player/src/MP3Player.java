@@ -16,7 +16,7 @@ public class MP3Player implements Runnable {
     private URL songURL;
     private Player songPlayer;
     private AudioFileFormat songData;
-    private volatile boolean status;
+    private volatile boolean status;//Thread status monitor.
 
     protected MP3Player() {
         try {
@@ -41,6 +41,7 @@ public class MP3Player implements Runnable {
         while (status) {
             //Do nothing.
         }
+        System.out.println("Song completed.");
     }
 
     public void stop() {

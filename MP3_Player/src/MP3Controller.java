@@ -24,7 +24,7 @@ public class MP3Controller {
     public void play() {
         long startingTime = System.currentTimeMillis();
         playerThread.run();
-        while (startingTime < startingTime + (songLength*1000)) {
+        while(System.currentTimeMillis() < startingTime + (songLength*1000)) {
             //Do nothing.
         }
         mp3Player.stop();
