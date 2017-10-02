@@ -3,7 +3,6 @@ import java.nio.file.Paths;
 import javax.media.Manager;
 import javax.media.Player;
 import java.net.URL;
-import java.net.MalformedURLException;
 import java.io.IOException;
 import java.io.File;
 import javax.sound.sampled.AudioSystem;
@@ -42,6 +41,7 @@ public class MP3Player implements Runnable {
             //Do nothing.
         }
         System.out.println("Song completed.");
+        songPlayer.stop();
     }
 
     public void stop() {
