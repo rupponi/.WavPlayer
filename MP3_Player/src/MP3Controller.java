@@ -19,7 +19,6 @@ public class MP3Controller {
         currentTime = 0;
         pastTime = 0;
         songTime= ((int)songFrames / (int)frameSpeed);
-
     }
 
     public void play() {
@@ -32,8 +31,8 @@ public class MP3Controller {
                 System.out.printf("%d:%02d/%d:%02d\n",currentTime/60,currentTime-(currentTime/60)*60, songTime/60,songTime-(songTime/60)*60);
             }
         }
-        mp3Player.stop();
 
+        mp3Player.stop();
     }
 
 

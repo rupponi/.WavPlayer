@@ -48,11 +48,6 @@ public class MP3Player implements Runnable {
         status = false;
     }
 
-
-    Player getSongPlayer() {
-        return songPlayer;
-    }
-
     AudioFileFormat getSongData() {
         return songData;
     }
