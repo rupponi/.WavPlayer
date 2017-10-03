@@ -39,6 +39,7 @@ public class Main extends Application{
             }
         });
 
+        //BorderPane to hold content
         BorderPane playerPane = new BorderPane();
         playerPane.setCenter(playButton);
         playerPane.setBottom(stopButton);
