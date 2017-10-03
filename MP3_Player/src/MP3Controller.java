@@ -1,4 +1,6 @@
 import javax.sound.sampled.AudioFileFormat;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 public class MP3Controller {
     MP3Player mp3Player;
@@ -6,6 +8,7 @@ public class MP3Controller {
     float songFrames,frameSpeed;
     Thread playerThread;
     long currentTime,pastTime,songTime;
+    String output;
 
     public MP3Controller() {
         mp3Player = new MP3Player();
@@ -19,6 +22,7 @@ public class MP3Controller {
         currentTime = 0;
         pastTime = 0;
         songTime= ((int)songFrames / (int)frameSpeed);
+        output = new String();
     }
 
     public void play() {
@@ -28,7 +32,7 @@ public class MP3Controller {
             pastTime = currentTime;
             currentTime = (System.currentTimeMillis()/1000)-startingTime;
             if (currentTime != pastTime) {
-                System.out.printf("%d:%02d/%d:%02d\n",currentTime/60,currentTime-(currentTime/60)*60, songTime/60,songTime-(songTime/60)*60);
+                output = String.format("%d:%02d/%d:%02d\n",currentTime/60,currentTime-(currentTime/60)*60, songTime/60,songTime-(songTime/60)*60);
             }
         }
 

@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -39,9 +40,12 @@ public class Main extends Application{
             }
         });
 
+        TextArea timer = new TextArea(controller.output);
+
         //BorderPane to hold content
         BorderPane playerPane = new BorderPane();
-        playerPane.setCenter(playButton);
+        playerPane.setTop(playButton);
+        playerPane.setCenter(timer);
         playerPane.setBottom(stopButton);
 
         musicStage.setScene(new Scene(playerPane,1280,720));
