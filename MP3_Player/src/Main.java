@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -6,13 +7,13 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-
+import javafx.scene.layout.HBox;
 
 
 public class Main extends Application{
 
     MP3Controller controller = new MP3Controller();
+    TextArea timer = new TextArea("");
 
     public static void main(String[] args) {
         launch(args);
@@ -21,6 +22,7 @@ public class Main extends Application{
 
     public void start(Stage musicStage) {
         musicStage.setTitle(".WavPlayer Music Player");
+        timer.setMaxHeight(20);
 
         //Play Button Creation
         Button playButton = new Button();
@@ -40,13 +42,17 @@ public class Main extends Application{
             }
         });
 
-        TextArea timer = new TextArea(controller.output);
 
-        //BorderPane to hold content
+
+        HBox midSection = new HBox();
+        midSection.setPadding(new Insets(15,12,15,12));
+        midSection.setSpacing(20);
+        midSection.setStyle("-fx-background-color: #336699;");
+
         BorderPane playerPane = new BorderPane();
-        playerPane.setTop(playButton);
-        playerPane.setCenter(timer);
-        playerPane.setBottom(stopButton);
+
+        midSection.getChildren().addAll(playButton,timer,stopButton);
+        playerPane.setTop(midSection);
 
         musicStage.setScene(new Scene(playerPane,1280,720));
         musicStage.show();
