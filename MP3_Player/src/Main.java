@@ -1,8 +1,50 @@
-public class Main {
-    public static void main(String[] args) {
-        MP3Controller controller = new MP3Controller();
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
-        controller.play();
-        System.exit(0);
+
+
+public class Main extends Application{
+
+    MP3Controller controller = new MP3Controller();
+
+    public static void main(String[] args) {
+        launch(args);
     }
+
+
+    public void start(Stage musicStage) {
+        musicStage.setTitle(".WavPlayer Music Player");
+
+        //Play Button Creation
+        Button playButton = new Button();
+        playButton.setText("Play");
+        playButton.setOnAction(new EventHandler<ActionEvent>() {
+           public void handle(ActionEvent playAction) {
+                controller.play();
+           }
+        });
+
+        //Stop Button Creation
+        Button stopButton = new Button();
+        stopButton.setText("Exit");
+        stopButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent exitAction) {
+                controller.mp3Player.stop();
+            }
+        });
+
+        BorderPane playerPane = new BorderPane();
+        playerPane.setCenter(playButton);
+        playerPane.setBottom(stopButton);
+
+        musicStage.setScene(new Scene(playerPane,1280,720));
+        musicStage.show();
+    }
+
 }
