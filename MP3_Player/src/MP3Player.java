@@ -41,7 +41,9 @@ public class MP3Player implements Runnable {
             //Do nothing.
         }
         System.out.println("Song completed.");
-        songPlayer.stop();
+        if (!status) {
+            songPlayer.stop();
+        }
     }
 
     public void stop() {
