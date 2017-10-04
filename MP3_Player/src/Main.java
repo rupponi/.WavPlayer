@@ -20,7 +20,8 @@ public class Main extends Application{
     static TextArea timer = new TextArea("");
 
     public static void main(String[] args) {
-        launch(args);
+        MP3Controller mainController = new MP3Controller();
+        mainController.play();
     }
 
 
@@ -43,7 +44,7 @@ public class Main extends Application{
         stopButton.setText("Exit");
         stopButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent exitAction) {
-                System.exit(0);
+                musicStage.close();
             }
         });
 

@@ -34,6 +34,7 @@ public class MP3Controller {
             currentTime = (System.currentTimeMillis()/1000)-startingTime;
             if (currentTime != pastTime) {
                 output = String.format("%d:%02d/%d:%02d\n",currentTime/60,currentTime-(currentTime/60)*60, songTime/60,songTime-(songTime/60)*60);
+                System.out.println(output);
             }
         }
 
