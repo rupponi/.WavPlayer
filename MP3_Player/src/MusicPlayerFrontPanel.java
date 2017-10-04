@@ -47,7 +47,7 @@ public class MusicPlayerFrontPanel extends Application{
             }
         });
 
-
+        //Window Setup
         playButton.setMaxHeight(20);
         playButton.setMaxWidth(50);
 
