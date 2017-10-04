@@ -1,17 +1,12 @@
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.InputMethodEvent;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-
-import javax.swing.*;
 
 
 public class MusicPlayerFrontPanel extends Application{
@@ -21,6 +16,7 @@ public class MusicPlayerFrontPanel extends Application{
     public static void main(String[] args) {
         launch(args);
     }
+
 
 
 
@@ -54,8 +50,9 @@ public class MusicPlayerFrontPanel extends Application{
         container.setAlignment(Pos.BASELINE_CENTER);
         container.setPadding(new Insets(15,20,15,20));
         container.setSpacing(15);
-        container.getChildren().addAll(playButton,controller.mp3Player.timer,exitButton);
+        container.getChildren().addAll(playButton,controller.mp3Player.getTimer(),exitButton);
         container.setStyle("-fx-background-color: #2f3ae3");
+        controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
 
         musicStage.setScene(new Scene(container,480,100));
         musicStage.show();

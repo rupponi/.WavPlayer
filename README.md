@@ -6,8 +6,10 @@ a temporary .wav file which will be played back with perfect clarity. Feel free 
 -Rohan Upponi
 
 NOTES FOR SETUP:
-After cloning, check to make sure these .jar files within the directory are included in the dependencies
+After cloning, check to make sure these .jar files within the directory are included in the dependencies.
 
 jffmpeg-1.1.0.jar
 jmf-2.1.1e.jar
+
+After this, make sure to set the file path of the file you want to play in the MP3Player source file where indicated. This is only temporary until integration with File Explorer is added.
 

@@ -20,22 +20,22 @@ public class MP3Player implements Runnable {
     private AudioFileFormat songData;
     private volatile boolean status;//Thread status monitor.
 
-    long currentTime,pastTime,songTime;
-    float songFrames,frameSpeed;
-    String output;
-    TextArea timer;
+    private long currentTime,pastTime,songTime;
+    private float songFrames,frameSpeed;
+    private String output;
+    private TextArea timer;
 
     protected MP3Player() {
         try {
             status = true;
 
-            songFile = new File("C://Java Projects/MusicPlayer/ImABoss.wav");
+            songFile = new File("C://.WavPlayer Music/ChillMusic.wav");//REPLACE THIS WITH YOUR FILEPATH. FORMAT AS SHOWN.
             songData = AudioSystem.getAudioFileFormat(songFile);
 
             songFrames = songData.getFrameLength();
             frameSpeed = songData.getFormat().getFrameRate();
 
-            songPath = Paths.get("C:/","Java Projects/MusicPlayer/ImABoss.wav");
+            songPath = Paths.get("C:/",".WavPlayer Music/ChillMusic.wav");//REPLACE THIS WITH THE SAME FILEPATH. FORMAT AS SHOWN FOR THIS GET METHOD.
             songURL = songPath.toUri().toURL();
             songPlayer = Manager.createRealizedPlayer(songURL);
 
@@ -62,9 +62,16 @@ public class MP3Player implements Runnable {
         return songPlayer;
     }
 
+    public long getSongTime() {
+        return songTime;
+    }
+
+    public TextArea getTimer() {
+        return timer;
+    }
+
     public void run() {//Run method simply begins stream. Stopping this will restart the song, similar to stop button in music player.
         long startingTime = System.currentTimeMillis()/1000;
-
         songPlayer.start();
 
         while((System.currentTimeMillis()/1000) < startingTime + songTime) {
