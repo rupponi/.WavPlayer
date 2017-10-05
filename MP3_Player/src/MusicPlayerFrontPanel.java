@@ -12,8 +12,14 @@ import javafx.scene.layout.HBox;
 public class MusicPlayerFrontPanel extends Application{
 
     MP3Controller controller = new MP3Controller();
+    static FileSelector selector = new FileSelector();
+
 
     public static void main(String[] args) {
+        while (!selector.importFinished) {
+            selector.findFile();
+        }
+
         launch(args);
     }
 
@@ -21,6 +27,7 @@ public class MusicPlayerFrontPanel extends Application{
 
 
     public void start(Stage musicStage) {
+
         musicStage.setTitle(".WavPlayer Music Player");
 
         HBox container = new HBox();

@@ -29,13 +29,13 @@ public class MP3Player implements Runnable {
         try {
             status = true;
 
-            songFile = new File("C://.WavPlayer Music/ChillMusic.wav");//REPLACE THIS WITH YOUR FILEPATH. FORMAT AS SHOWN.
+            songFile = new File(MusicPlayerFrontPanel.selector.songPath);
             songData = AudioSystem.getAudioFileFormat(songFile);
 
             songFrames = songData.getFrameLength();
             frameSpeed = songData.getFormat().getFrameRate();
 
-            songPath = Paths.get("C:/",".WavPlayer Music/ChillMusic.wav");//REPLACE THIS WITH THE SAME FILEPATH. FORMAT AS SHOWN FOR THIS GET METHOD.
+            songPath = Paths.get(MusicPlayerFrontPanel.selector.songPath);
             songURL = songPath.toUri().toURL();
             songPlayer = Manager.createRealizedPlayer(songURL);
 
