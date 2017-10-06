@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -30,7 +31,9 @@ public class MusicPlayerFrontPanel extends Application{
 
         musicStage.setTitle(".WavPlayer Music Player");
 
-        HBox container = new HBox();
+        HBox songTimer = new HBox();
+        HBox buttonInterFace = new HBox();
+        VBox container = new VBox();
 
         Button playButton = new Button();
         playButton.setText("Play");
@@ -54,14 +57,22 @@ public class MusicPlayerFrontPanel extends Application{
         playButton.setMaxHeight(20);
         playButton.setMaxWidth(50);
 
-        container.setAlignment(Pos.BASELINE_CENTER);
-        container.setPadding(new Insets(15,20,15,20));
-        container.setSpacing(15);
-        container.getChildren().addAll(playButton,controller.mp3Player.getTimer(),exitButton);
-        container.setStyle("-fx-background-color: #2f3ae3");
+        songTimer.setAlignment(Pos.BASELINE_CENTER);
+        songTimer.setPadding(new Insets(15,20,15,20));
+        songTimer.setSpacing(15);
+        songTimer.getChildren().add(controller.mp3Player.getTimer());
+
         controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
 
-        musicStage.setScene(new Scene(container,480,100));
+        buttonInterFace.setAlignment(Pos.BASELINE_CENTER);
+        buttonInterFace.setPadding(new Insets(15,20,15,20));
+        buttonInterFace.setSpacing(30);
+        buttonInterFace.getChildren().addAll(playButton,exitButton);
+
+        container.setStyle("-fx-background-color: #2f3ae3");
+        container.getChildren().addAll(songTimer,buttonInterFace);
+
+        musicStage.setScene(new Scene(container,480,150));
         musicStage.show();
 
 
