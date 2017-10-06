@@ -1,7 +1,9 @@
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -43,6 +45,11 @@ public class MusicPlayerFrontPanel extends Application{
             }
         });
 
+        playButton.setMaxHeight(20);
+        playButton.setMaxWidth(50);
+        playButton.setStyle("-fx-background-color: #090a0c, linear-gradient(#20262b, #191d22), linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%), linear-gradient(#20262b,#191d22), radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0))");
+        playButton.setTextFill(Color.WHITE);
+
         Button exitButton = new Button();
         exitButton.setText("Exit");
         exitButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -53,14 +60,20 @@ public class MusicPlayerFrontPanel extends Application{
             }
         });
 
-        //Window Setup
-        playButton.setMaxHeight(20);
-        playButton.setMaxWidth(50);
+        exitButton.setMaxHeight(20);
+        exitButton.setMaxWidth(50);
+        exitButton.setStyle("-fx-background-color: #090a0c, linear-gradient(#20262b, #191d22), linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%), linear-gradient(#20262b,#191d22), radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0))");
+        exitButton.setTextFill(Color.WHITE);
 
         songTimer.setAlignment(Pos.BASELINE_CENTER);
         songTimer.setPadding(new Insets(15,20,15,20));
         songTimer.setSpacing(15);
-        songTimer.getChildren().add(controller.mp3Player.getTimer());
+
+        TextArea timer = controller.mp3Player.getTimer();
+        timer.setStyle("-fx-background-color: linear-gradient(#858589,#5e5e61)");
+        timer.setStyle("-fx-font-alignment: center");
+
+        songTimer.getChildren().add(timer);
 
         controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
 
@@ -69,10 +82,13 @@ public class MusicPlayerFrontPanel extends Application{
         buttonInterFace.setSpacing(30);
         buttonInterFace.getChildren().addAll(playButton,exitButton);
 
-        container.setStyle("-fx-background-color: #2f3ae3");
-        container.getChildren().addAll(songTimer,buttonInterFace);
 
-        musicStage.setScene(new Scene(container,480,150));
+        container.getChildren().addAll(songTimer,buttonInterFace);
+        container.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
+
+        Scene mainScene = new Scene(container,480,150);
+
+        musicStage.setScene(mainScene);
         musicStage.show();
 
 
