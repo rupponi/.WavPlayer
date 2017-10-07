@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -35,9 +36,12 @@ public class MusicPlayerFrontPanel extends Application{
         musicStage.setTitle(".WavPlayer Music Player");
         musicStage.initStyle(StageStyle.TRANSPARENT);
 
-        HBox songTimer = new HBox();
+        VBox songTimer = new VBox();
         HBox buttonInterFace = new HBox();
+        HBox timerBox = new HBox();
         VBox container = new VBox();
+        Label startTime = new Label();
+        Label endTime = new Label();
 
         Button playButton = new Button();
         playButton.setText("Play");
@@ -71,11 +75,17 @@ public class MusicPlayerFrontPanel extends Application{
         songTimer.setPadding(new Insets(15,20,15,20));
         songTimer.setSpacing(15);
 
+        startTime.setText("0:00");
+        endTime.setText(String.format("%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
+
         TextArea timer = controller.mp3Player.getTimer();
         timer.setStyle("-fx-background-color: linear-gradient(#858589,#5e5e61)");
         timer.setStyle("-fx-font-alignment: center");
 
-        songTimer.getChildren().add(timer);
+        timerBox.setAlignment(Pos.BASELINE_CENTER);
+        timerBox.getChildren().addAll(startTime,controller.mp3Player.getTimeSlider(),endTime);
+
+        songTimer.getChildren().addAll(timerBox,timer);
 
         controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
 
@@ -88,7 +98,7 @@ public class MusicPlayerFrontPanel extends Application{
         container.getChildren().addAll(songTimer,buttonInterFace);
         container.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
 
-        Scene mainScene = new Scene(container,480,150);
+        Scene mainScene = new Scene(container,720,250);
 
 
         musicStage.setScene(mainScene);

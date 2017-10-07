@@ -1,15 +1,21 @@
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Font;
+import javafx.scene.control.Slider;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import javax.media.Manager;
-import javax.media.Player;
-import java.net.URL;
+
 import java.io.IOException;
 import java.io.File;
+
+import javax.media.Manager;
+import javax.media.Player;
+
+import java.net.URL;
+
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.AudioFileFormat;
+
 
 public class MP3Player implements Runnable {
 
@@ -24,6 +30,7 @@ public class MP3Player implements Runnable {
     private float songFrames,frameSpeed;
     private String output;
     private TextArea timer;
+    private Slider timeSlider;
 
     protected MP3Player() {
         try {
@@ -51,6 +58,14 @@ public class MP3Player implements Runnable {
             timer.setStyle("-fx-font-family: monospace");
             timer.setFont(Font.font("Arial Black", 12.0));
 
+            timeSlider = new Slider();
+            timeSlider.setMinSize(300,50);
+            timeSlider.setMin(0);
+            timeSlider.setMax((int) songTime);
+            timeSlider.setMajorTickUnit(60);
+            timeSlider.setBlockIncrement(1);
+
+
         } catch (IOException ix) {//Printing out IOExceptions.
             System.out.println(ix);
         } catch (Exception ex) {//Generalized Exception catch for all other Exceptions to print stack trace.
@@ -70,6 +85,10 @@ public class MP3Player implements Runnable {
         return timer;
     }
 
+    public Slider getTimeSlider() {
+        return timeSlider;
+    }
+
     public void run() {//Run method simply begins stream. Stopping this will restart the song, similar to stop button in music player.
         long startingTime = System.currentTimeMillis()/1000;
         songPlayer.start();
@@ -80,6 +99,7 @@ public class MP3Player implements Runnable {
             if (currentTime != pastTime) {
                 output = String.format("%d:%02d/%d:%02d",currentTime/60,currentTime-(currentTime/60)*60, songTime/60,songTime-(songTime/60)*60);
                 timer.setText(output);
+                timeSlider.setValue(currentTime);
             }
         }
         status = false;
