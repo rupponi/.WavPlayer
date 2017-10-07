@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.stage.StageStyle;
 
 
 public class MusicPlayerFrontPanel extends Application{
@@ -32,6 +33,7 @@ public class MusicPlayerFrontPanel extends Application{
     public void start(Stage musicStage) {
 
         musicStage.setTitle(".WavPlayer Music Player");
+        musicStage.initStyle(StageStyle.TRANSPARENT);
 
         HBox songTimer = new HBox();
         HBox buttonInterFace = new HBox();
@@ -87,6 +89,7 @@ public class MusicPlayerFrontPanel extends Application{
         container.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
 
         Scene mainScene = new Scene(container,480,150);
+
 
         musicStage.setScene(mainScene);
         musicStage.show();
