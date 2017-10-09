@@ -3,16 +3,19 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
 import javafx.stage.StageStyle;
+
+import javax.swing.*;
 
 
 public class MusicPlayerFrontPanel extends Application{
@@ -46,18 +49,33 @@ public class MusicPlayerFrontPanel extends Application{
         Label startTime = new Label();
         Label endTime = new Label();
 
+
+
         Button playButton = new Button();
-        playButton.setText("Play");
         playButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent playClicked) {
                 controller.play();
             }
         });
 
-        playButton.setMinHeight(25);
-        playButton.setMaxWidth(50);
-        playButton.setStyle("-fx-background-color: #090a0c, linear-gradient(#20262b, #191d22), linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%), linear-gradient(#20262b,#191d22), radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0))");
+        Image playImage = new Image(getClass().getResourceAsStream("play.png"));
+        ImageView playImageView = new ImageView(playImage);
+        playImageView.setFitHeight(50.0);
+        playImageView.setFitWidth(50.0);
+        playButton.setGraphic(playImageView);
+
+        Circle playCircle = new Circle();
+        playCircle.setRadius(50);
+        playCircle.maxHeight(40);
+        playCircle.maxWidth(40);
+
+        playButton.setMaxHeight(40);
+        playButton.setMaxWidth(40);
+        playButton.setShape(playCircle);
+        playButton.setStyle("-fx-background-color: #0a0a0a");
         playButton.setTextFill(Color.WHITE);
+
+
 
         Button minimizeButton = new Button();
         minimizeButton.setText("-");
@@ -67,10 +85,26 @@ public class MusicPlayerFrontPanel extends Application{
            }
         });
 
-        minimizeButton.setMinHeight(26);
+        minimizeButton.setMinHeight(25);
         minimizeButton.setMinWidth(50);
-        minimizeButton.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
+        minimizeButton.setStyle("-fx-background-color: #4d4d4e");
         minimizeButton.setTextFill(Color.WHITE);
+
+
+
+        Button fullScreenButton = new Button();
+        fullScreenButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent fullScreen) {
+                musicStage.setMaximized(true);
+            }
+        });
+
+        fullScreenButton.setMinHeight(25);
+        fullScreenButton.setMinWidth(50);
+        fullScreenButton.setStyle("-fx-background-color: #4d4d4e");
+
+
+
 
         Button exitButton = new Button();
         exitButton.setText("x");
@@ -84,7 +118,7 @@ public class MusicPlayerFrontPanel extends Application{
 
         exitButton.setMinHeight(20);
         exitButton.setMinWidth(50);
-        exitButton.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
+        exitButton.setStyle("-fx-background-color: #4d4d4e");
         exitButton.setTextFill(Color.WHITE);
 
         songTimer.setAlignment(Pos.BASELINE_CENTER);
@@ -102,7 +136,10 @@ public class MusicPlayerFrontPanel extends Application{
         timerBox.getChildren().addAll(startTime,controller.mp3Player.getTimeSlider(),endTime);
 
         cornerButtons.setAlignment(Pos.TOP_RIGHT);
-        cornerButtons.getChildren().addAll(minimizeButton,exitButton);
+        cornerButtons.setMaxHeight(30);
+        cornerButtons.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.NONE,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
+        cornerButtons.setStyle("-fx-background-color: #4d4d4e");
+        cornerButtons.getChildren().addAll(minimizeButton,fullScreenButton,exitButton);
 
         songTimer.getChildren().addAll(timerBox,timer);
 
@@ -118,6 +155,7 @@ public class MusicPlayerFrontPanel extends Application{
 
         frontPanel.setTop(cornerButtons);
         frontPanel.setCenter(container);
+        frontPanel.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID, CornerRadii.EMPTY,BorderWidths.DEFAULT)));
         frontPanel.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
 
         Scene mainScene = new Scene(frontPanel,720,250);
