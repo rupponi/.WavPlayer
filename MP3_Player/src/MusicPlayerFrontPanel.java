@@ -3,6 +3,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -38,8 +39,10 @@ public class MusicPlayerFrontPanel extends Application{
 
         VBox songTimer = new VBox();
         HBox buttonInterFace = new HBox();
+        HBox cornerButtons = new HBox();
         HBox timerBox = new HBox();
         VBox container = new VBox();
+        BorderPane frontPanel = new BorderPane();
         Label startTime = new Label();
         Label endTime = new Label();
 
@@ -51,13 +54,26 @@ public class MusicPlayerFrontPanel extends Application{
             }
         });
 
-        playButton.setMaxHeight(20);
+        playButton.setMinHeight(25);
         playButton.setMaxWidth(50);
         playButton.setStyle("-fx-background-color: #090a0c, linear-gradient(#20262b, #191d22), linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%), linear-gradient(#20262b,#191d22), radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0))");
         playButton.setTextFill(Color.WHITE);
 
+        Button minimizeButton = new Button();
+        minimizeButton.setText("-");
+        minimizeButton.setOnAction(new EventHandler<ActionEvent>() {
+           public void handle(ActionEvent minimizeWindow) {
+               musicStage.setIconified(true);
+           }
+        });
+
+        minimizeButton.setMinHeight(26);
+        minimizeButton.setMinWidth(50);
+        minimizeButton.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
+        minimizeButton.setTextFill(Color.WHITE);
+
         Button exitButton = new Button();
-        exitButton.setText("Exit");
+        exitButton.setText("x");
         exitButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent exitClicked) {
                 musicStage.hide();
@@ -66,9 +82,9 @@ public class MusicPlayerFrontPanel extends Application{
             }
         });
 
-        exitButton.setMaxHeight(20);
-        exitButton.setMaxWidth(50);
-        exitButton.setStyle("-fx-background-color: #090a0c, linear-gradient(#20262b, #191d22), linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%), linear-gradient(#20262b,#191d22), radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0))");
+        exitButton.setMinHeight(20);
+        exitButton.setMinWidth(50);
+        exitButton.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
         exitButton.setTextFill(Color.WHITE);
 
         songTimer.setAlignment(Pos.BASELINE_CENTER);
@@ -85,6 +101,9 @@ public class MusicPlayerFrontPanel extends Application{
         timerBox.setAlignment(Pos.BASELINE_CENTER);
         timerBox.getChildren().addAll(startTime,controller.mp3Player.getTimeSlider(),endTime);
 
+        cornerButtons.setAlignment(Pos.TOP_RIGHT);
+        cornerButtons.getChildren().addAll(minimizeButton,exitButton);
+
         songTimer.getChildren().addAll(timerBox,timer);
 
         controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
@@ -92,13 +111,16 @@ public class MusicPlayerFrontPanel extends Application{
         buttonInterFace.setAlignment(Pos.BASELINE_CENTER);
         buttonInterFace.setPadding(new Insets(15,20,15,20));
         buttonInterFace.setSpacing(30);
-        buttonInterFace.getChildren().addAll(playButton,exitButton);
+        buttonInterFace.getChildren().add(playButton);
 
 
         container.getChildren().addAll(songTimer,buttonInterFace);
-        container.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
 
-        Scene mainScene = new Scene(container,720,250);
+        frontPanel.setTop(cornerButtons);
+        frontPanel.setCenter(container);
+        frontPanel.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
+
+        Scene mainScene = new Scene(frontPanel,720,250);
 
 
         musicStage.setScene(mainScene);
