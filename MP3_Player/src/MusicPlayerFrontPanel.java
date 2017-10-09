@@ -93,6 +93,7 @@ public class MusicPlayerFrontPanel extends Application{
 
 
         Button fullScreenButton = new Button();
+        fullScreenButton.setText("□");
         fullScreenButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent fullScreen) {
                 musicStage.setMaximized(true);
@@ -101,6 +102,7 @@ public class MusicPlayerFrontPanel extends Application{
 
         fullScreenButton.setMinHeight(25);
         fullScreenButton.setMinWidth(50);
+        fullScreenButton.setTextFill(Color.WHITE);
         fullScreenButton.setStyle("-fx-background-color: #4d4d4e");
 
 
@@ -118,7 +120,7 @@ public class MusicPlayerFrontPanel extends Application{
 
         exitButton.setMinHeight(20);
         exitButton.setMinWidth(50);
-        exitButton.setStyle("-fx-background-color: #4d4d4e");
+        exitButton.setStyle("-fx-background-color: #ff0000");
         exitButton.setTextFill(Color.WHITE);
 
         songTimer.setAlignment(Pos.BASELINE_CENTER);
@@ -129,6 +131,8 @@ public class MusicPlayerFrontPanel extends Application{
         endTime.setText(String.format("%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
 
         TextArea timer = controller.mp3Player.getTimer();
+        timer.setMinHeight(25);
+        timer.setMinWidth(100);
         timer.setStyle("-fx-background-color: linear-gradient(#858589,#5e5e61)");
         timer.setStyle("-fx-font-alignment: center");
 
