@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -48,6 +49,8 @@ public class MusicPlayerFrontPanel extends Application{
         BorderPane frontPanel = new BorderPane();
         Label startTime = new Label();
         Label endTime = new Label();
+
+
 
 
 
@@ -93,7 +96,7 @@ public class MusicPlayerFrontPanel extends Application{
 
 
         Button fullScreenButton = new Button();
-        fullScreenButton.setText("□");
+        fullScreenButton.setText("▭");
         fullScreenButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent fullScreen) {
                 musicStage.setMaximized(true);
@@ -122,6 +125,8 @@ public class MusicPlayerFrontPanel extends Application{
         exitButton.setMinWidth(50);
         exitButton.setStyle("-fx-background-color: #ff0000");
         exitButton.setTextFill(Color.WHITE);
+
+
 
         songTimer.setAlignment(Pos.BASELINE_CENTER);
         songTimer.setPadding(new Insets(15,20,15,20));
@@ -152,8 +157,7 @@ public class MusicPlayerFrontPanel extends Application{
         buttonInterFace.setAlignment(Pos.BASELINE_CENTER);
         buttonInterFace.setPadding(new Insets(15,20,15,20));
         buttonInterFace.setSpacing(30);
-        buttonInterFace.getChildren().add(playButton);
-
+        buttonInterFace.getChildren().addAll(playButton);
 
         container.getChildren().addAll(songTimer,buttonInterFace);
 

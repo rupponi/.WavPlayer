@@ -1,5 +1,8 @@
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Font;
 import javafx.scene.control.Slider;
@@ -34,6 +37,7 @@ public class MP3Player implements Runnable {
     private TextArea timer;
     private Slider timeSlider;
 
+
     protected MP3Player() {
         try {
             status = true;
@@ -53,6 +57,8 @@ public class MP3Player implements Runnable {
             songTime= ((int)songFrames / (int)frameSpeed);
             output = new String();
 
+
+
             timer = new TextArea();
             timer.setMaxHeight(40);
             timer.setMaxWidth(85);
@@ -66,6 +72,7 @@ public class MP3Player implements Runnable {
             timeSlider.setMax((int) songTime);
             timeSlider.setMajorTickUnit(60);
             timeSlider.setBlockIncrement(1);
+
 
 
         } catch (IOException ix) {//Printing out IOExceptions.
@@ -83,6 +90,14 @@ public class MP3Player implements Runnable {
         return songTime;
     }
 
+    public long getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(long newCurrentTime) {
+        currentTime = newCurrentTime;
+    }
+
     public TextArea getTimer() {
         return timer;
     }
@@ -97,6 +112,7 @@ public class MP3Player implements Runnable {
 
         while((System.currentTimeMillis()/1000) < startingTime + songTime) {
             pastTime = currentTime;
+
             currentTime = (System.currentTimeMillis()/1000)-startingTime;
             if (currentTime != pastTime) {
                 output = String.format("%d:%02d/%d:%02d",currentTime/60,currentTime-(currentTime/60)*60, songTime/60,songTime-(songTime/60)*60);
