@@ -10,13 +10,16 @@ public class FileSelector {
 
     public void findFile() {
         fileImport = new FileDialog(new JFrame());
-        fileImport.setVisible(true);
+        while (!importFinished) {
+            fileImport.setVisible(true);
 
-        inputFiles = fileImport.getFiles();
 
-        if (inputFiles.length > 0) {
-            songPath = (fileImport.getFiles()[0].getAbsolutePath());
-            importFinished = true;
+            inputFiles = fileImport.getFiles();
+
+            if (inputFiles.length > 0) {
+                songPath = (fileImport.getFiles()[0].getAbsolutePath());
+                importFinished = true;
+            }
         }
 
     }

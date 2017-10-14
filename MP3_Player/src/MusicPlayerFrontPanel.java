@@ -96,7 +96,7 @@ public class MusicPlayerFrontPanel extends Application{
 
 
         Button fullScreenButton = new Button();
-        fullScreenButton.setText("▭");
+        fullScreenButton.setText("");
         fullScreenButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent fullScreen) {
                 musicStage.setMaximized(true);
