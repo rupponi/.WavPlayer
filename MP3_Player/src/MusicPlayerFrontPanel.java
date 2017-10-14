@@ -99,7 +99,11 @@ public class MusicPlayerFrontPanel extends Application{
         fullScreenButton.setText("");
         fullScreenButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent fullScreen) {
-                musicStage.setMaximized(true);
+                if (!musicStage.isMaximized()) {
+                    musicStage.setMaximized(true);
+                } else {
+                    musicStage.setMaximized(false);
+                }
             }
         });
 
@@ -133,7 +137,10 @@ public class MusicPlayerFrontPanel extends Application{
         songTimer.setSpacing(15);
 
         startTime.setText("0:00");
+        startTime.setTextFill(Color.GRAY);
+
         endTime.setText(String.format("%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
+        endTime.setTextFill(Color.GRAY);
 
         TextArea timer = controller.mp3Player.getTimer();
         timer.setMinHeight(25);

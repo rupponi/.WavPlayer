@@ -118,6 +118,8 @@ public class MP3Player implements Runnable {
                 output = String.format("%d:%02d/%d:%02d",currentTime/60,currentTime-(currentTime/60)*60, songTime/60,songTime-(songTime/60)*60);
                 timer.setText(output);
                 timeSlider.setValue(currentTime);
+
+
             }
         }
         status = false;
