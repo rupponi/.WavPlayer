@@ -39,72 +39,115 @@ public class MP3Player implements Runnable {
 
 
     protected MP3Player() {
-        try {
-            status = true;
+        status = true;
 
-            songFile = new File(MusicPlayerFrontPanel.selector.songPath);
-            songData = AudioSystem.getAudioFileFormat(songFile);
+        currentTime = 0;
+        pastTime = 0;
+        output = new String();
 
-            songFrames = songData.getFrameLength();
-            frameSpeed = songData.getFormat().getFrameRate();
+        timer = new TextArea();
+        timer.setMaxHeight(40);
+        timer.setMaxWidth(85);
+        timer.setEditable(false);
+        timer.setStyle("-fx-font-family: monospace");
+        timer.setFont(Font.font("Arial Black", 12.0));
 
-            songPath = Paths.get(MusicPlayerFrontPanel.selector.songPath);
-            songURL = songPath.toUri().toURL();
-            songPlayer = Manager.createRealizedPlayer(songURL);
-
-            currentTime = 0;
-            pastTime = 0;
-            songTime= ((int)songFrames / (int)frameSpeed);
-            output = new String();
-
-
-
-            timer = new TextArea();
-            timer.setMaxHeight(40);
-            timer.setMaxWidth(85);
-            timer.setEditable(false);
-            timer.setStyle("-fx-font-family: monospace");
-            timer.setFont(Font.font("Arial Black", 12.0));
-
-            timeSlider = new Slider();
-            timeSlider.setMinSize(300,50);
-            timeSlider.setMin(0);
-            timeSlider.setMax((int) songTime);
-            timeSlider.setMajorTickUnit(60);
-            timeSlider.setBlockIncrement(1);
+        timeSlider = new Slider();
+        timeSlider.setMinSize(300,50);
+        timeSlider.setMin(0);
+        timeSlider.setMajorTickUnit(60);
+        timeSlider.setBlockIncrement(1);
 
 
-
-        } catch (IOException ix) {//Printing out IOExceptions.
-            System.out.println(ix);
-        } catch (Exception ex) {//Generalized Exception catch for all other Exceptions to print stack trace.
-            ex.printStackTrace();
-        }
     }
+
 
     public Player getSongPlayer() {
         return songPlayer;
     }
+    public void setSongPlayer(Player newPlayer) {
+        songPlayer = newPlayer;
+    }
+
+
+    public Path getSongPath() {
+        return songPath;
+    }
+    public void setSongPath(Path newSongPath) {
+        songPath = newSongPath;
+    }
+
+
+    public URL getSongURL() {
+        return songURL;
+    }
+    public void setSongURL(URL newSongURL) {
+        songURL = newSongURL;
+    }
+
+
+    public File getSongFile() {
+        return songFile;
+    }
+    public void setSongFile(File newSong) {
+        songFile = newSong;
+    }
+
+
+    public AudioFileFormat getSongData() {
+        return songData;
+    }
+    public void setSongData(AudioFileFormat newSongData) {
+        songData = newSongData;
+    }
+
+    public float getSongFrames() {
+        return songFrames;
+    }
+    public void setSongFrames(float newSongFrames) {
+        songFrames = newSongFrames;
+    }
+
+
+    public float getFrameSpeed() {
+        return frameSpeed;
+    }
+    public void setFrameSpeed(float newFrameSpeed) {
+        frameSpeed = newFrameSpeed;
+    }
+
 
     public long getSongTime() {
         return songTime;
     }
+    public void setSongTime(long newSongTime) {
+        songTime = newSongTime;
+    }
+
 
     public long getCurrentTime() {
         return currentTime;
     }
-
     public void setCurrentTime(long newCurrentTime) {
         currentTime = newCurrentTime;
     }
 
+
     public TextArea getTimer() {
         return timer;
     }
+    public void setTimer(TextArea newTimer) {
+        timer = newTimer;
+    }
+
 
     public Slider getTimeSlider() {
         return timeSlider;
     }
+    public void setTimeSlider(Slider newTimeSlider) {
+        timeSlider = newTimeSlider;
+    }
+
 
     public void run() {//Run method simply begins stream. Stopping this will restart the song, similar to stop button in music player.
         long startingTime = System.currentTimeMillis()/1000;
@@ -118,8 +161,6 @@ public class MP3Player implements Runnable {
                 output = String.format("%d:%02d/%d:%02d",currentTime/60,currentTime-(currentTime/60)*60, songTime/60,songTime-(songTime/60)*60);
                 timer.setText(output);
                 timeSlider.setValue(currentTime);
-
-
             }
         }
         status = false;
@@ -132,9 +173,5 @@ public class MP3Player implements Runnable {
 
     public void stop() {
         status = false;
-    }
-
-    AudioFileFormat getSongData() {
-        return songData;
     }
 }

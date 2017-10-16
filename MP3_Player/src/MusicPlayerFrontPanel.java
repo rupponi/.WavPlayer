@@ -16,7 +16,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.StageStyle;
 
+import javax.media.Manager;
+import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
+import java.io.File;
+import java.nio.file.Paths;
 
 
 public class MusicPlayerFrontPanel extends Application{
@@ -26,9 +30,6 @@ public class MusicPlayerFrontPanel extends Application{
 
 
     public static void main(String[] args) {
-        while (!selector.importFinished) {
-            selector.findFile();
-        }
 
         launch(args);
     }
@@ -42,7 +43,7 @@ public class MusicPlayerFrontPanel extends Application{
         musicStage.initStyle(StageStyle.TRANSPARENT);
 
         VBox songTimer = new VBox();
-        HBox buttonInterFace = new HBox();
+        VBox buttonInterFace = new VBox();
         HBox cornerButtons = new HBox();
         HBox timerBox = new HBox();
         VBox container = new VBox();
@@ -50,9 +51,39 @@ public class MusicPlayerFrontPanel extends Application{
         Label startTime = new Label();
         Label endTime = new Label();
 
+        Button fileButton = new Button();
+        fileButton.setText("Select Song");
+        fileButton.setTextFill(Color.WHITE);
+        fileButton.setOnAction(new EventHandler<ActionEvent>() {
+           public void handle(ActionEvent fileAccess) {
+               while (!selector.importFinished) {
+                   selector.findFile();
+               }
+               try {
+                   controller.mp3Player.setSongFile(new File(selector.songPath));
+                   controller.mp3Player.setSongData(AudioSystem.getAudioFileFormat(controller.mp3Player.getSongFile()));
+
+                   controller.mp3Player.setSongFrames(controller.mp3Player.getSongData().getFrameLength());
+                   controller.mp3Player.setFrameSpeed(controller.mp3Player.getSongData().getFormat().getFrameRate());
+
+                   controller.mp3Player.setSongPath(Paths.get(selector.songPath));
+                   controller.mp3Player.setSongURL(controller.mp3Player.getSongPath().toUri().toURL());
+                   controller.mp3Player.setSongPlayer(Manager.createRealizedPlayer(controller.mp3Player.getSongURL()));
+
+                   controller.mp3Player.setSongTime(((int) (controller.mp3Player.getSongFrames() / controller.mp3Player.getFrameSpeed())));
+                   System.out.println(controller.mp3Player.getSongData().getFrameLength());
+
+                   controller.mp3Player.getTimeSlider().setMax((int) controller.mp3Player.getSongTime());
+                   endTime.setText(String.format("%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
+               } catch (Exception ex) {
+                   ex.printStackTrace();
+               }
+           }
+        });
+        fileButton.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
 
 
-
+        //******* PLAY BUTTON *******//
 
         Button playButton = new Button();
         playButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -164,7 +195,7 @@ public class MusicPlayerFrontPanel extends Application{
         buttonInterFace.setAlignment(Pos.BASELINE_CENTER);
         buttonInterFace.setPadding(new Insets(15,20,15,20));
         buttonInterFace.setSpacing(30);
-        buttonInterFace.getChildren().addAll(playButton);
+        buttonInterFace.getChildren().addAll(playButton,fileButton);
 
         container.getChildren().addAll(songTimer,buttonInterFace);
 
@@ -173,7 +204,7 @@ public class MusicPlayerFrontPanel extends Application{
         frontPanel.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID, CornerRadii.EMPTY,BorderWidths.DEFAULT)));
         frontPanel.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
 
-        Scene mainScene = new Scene(frontPanel,720,250);
+        Scene mainScene = new Scene(frontPanel,720,350);
 
 
         musicStage.setScene(mainScene);

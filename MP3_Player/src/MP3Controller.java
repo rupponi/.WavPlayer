@@ -18,9 +18,4 @@ public class MP3Controller {
 
         mp3Player.stop();
     }
-
-
-
-
-
 }
