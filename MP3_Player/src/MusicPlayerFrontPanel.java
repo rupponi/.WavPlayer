@@ -3,6 +3,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -21,6 +22,7 @@ import javafx.stage.StageStyle;
 
 import javax.media.Manager;
 import javax.sound.sampled.AudioSystem;
+import javax.swing.*;
 import java.io.File;
 import java.nio.file.Paths;
 
@@ -85,7 +87,14 @@ public class MusicPlayerFrontPanel extends Application{
         Button playButton = new Button();
         playButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent playClicked) {
-                controller.play();
+                if (controller.mp3Player.getSongPlayer() != null) {
+                    controller.play();
+                } else {
+                    Alert noSongWarning = new Alert(Alert.AlertType.WARNING);
+                    noSongWarning.setTitle("I Need a Song");
+                    noSongWarning.setContentText("Please select a song.");
+                    noSongWarning.showAndWait();
+                }
             }
         });
 
@@ -124,7 +133,7 @@ public class MusicPlayerFrontPanel extends Application{
 
 
         Button fullScreenButton = new Button();
-        fullScreenButton.setText("");
+        fullScreenButton.setText("▭");
         fullScreenButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent fullScreen) {
                 if (!musicStage.isMaximized()) {
@@ -148,7 +157,9 @@ public class MusicPlayerFrontPanel extends Application{
         exitButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent exitClicked) {
                 musicStage.hide();
-                controller.mp3Player.getSongPlayer().stop();
+                if (controller.mp3Player.getSongPlayer() != null) {
+                    controller.mp3Player.getSongPlayer().stop();
+                }
                 System.exit(0);
             }
         });
