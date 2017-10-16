@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.StageStyle;
 
+import javax.media.Controller;
 import javax.media.Manager;
 import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
@@ -85,19 +86,6 @@ public class MusicPlayerFrontPanel extends Application{
         //******* PLAY BUTTON *******//
 
         Button playButton = new Button();
-        playButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent playClicked) {
-                if (controller.mp3Player.getSongPlayer() != null) {
-                    controller.play();
-                } else {
-                    Alert noSongWarning = new Alert(Alert.AlertType.WARNING);
-                    noSongWarning.setTitle("I Need a Song");
-                    noSongWarning.setContentText("Please select a song.");
-                    noSongWarning.showAndWait();
-                }
-            }
-        });
-
         Image playImage = new Image(getClass().getResourceAsStream("play.png"));
         ImageView playImageView = new ImageView(playImage);
         playImageView.setFitHeight(50.0);
@@ -114,6 +102,29 @@ public class MusicPlayerFrontPanel extends Application{
         playButton.setShape(playCircle);
         playButton.setStyle("-fx-background-color: #0a0a0a");
         playButton.setTextFill(Color.WHITE);
+
+        playButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent playClicked) {
+                if (controller.mp3Player.getSongPlayer() != null) {
+                    if ((controller.mp3Player.getSongPlayer().getState() != Controller.Started)) {
+                        controller.play();
+                        Image pauseView = new Image(getClass().getResourceAsStream("pause.png"));
+                        ImageView pauseImageView = new ImageView(pauseView);
+                        pauseImageView.setFitHeight(50.0);
+                        pauseImageView.setFitWidth(50.0);
+                        playButton.setGraphic(pauseImageView);
+                    }
+                    else if (controller.mp3Player.getSongPlayer().getState() == Controller.Started) {
+                        controller.mp3Player.getSongPlayer().stop();
+                    }
+                } else {
+                    Alert noSongWarning = new Alert(Alert.AlertType.WARNING);
+                    noSongWarning.setTitle("I Need a Song");
+                    noSongWarning.setContentText("Please select a song.");
+                    noSongWarning.showAndWait();
+                }
+            }
+        });
 
 
 
