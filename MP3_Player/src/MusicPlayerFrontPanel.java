@@ -1,6 +1,8 @@
 import javafx.application.Application;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -8,8 +10,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
+
 import javafx.stage.Stage;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -18,9 +21,9 @@ import javafx.stage.StageStyle;
 
 import javax.media.Manager;
 import javax.sound.sampled.AudioSystem;
-import javax.swing.*;
 import java.io.File;
 import java.nio.file.Paths;
+
 
 
 public class MusicPlayerFrontPanel extends Application{
@@ -28,14 +31,9 @@ public class MusicPlayerFrontPanel extends Application{
     MP3Controller controller = new MP3Controller();
     static FileSelector selector = new FileSelector();
 
-
     public static void main(String[] args) {
-
         launch(args);
     }
-
-
-
 
     public void start(Stage musicStage) {
 
@@ -71,7 +69,6 @@ public class MusicPlayerFrontPanel extends Application{
                    controller.mp3Player.setSongPlayer(Manager.createRealizedPlayer(controller.mp3Player.getSongURL()));
 
                    controller.mp3Player.setSongTime(((int) (controller.mp3Player.getSongFrames() / controller.mp3Player.getFrameSpeed())));
-                   System.out.println(controller.mp3Player.getSongData().getFrameLength());
 
                    controller.mp3Player.getTimeSlider().setMax((int) controller.mp3Player.getSongTime());
                    endTime.setText(String.format("%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));

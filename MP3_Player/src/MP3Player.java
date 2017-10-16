@@ -1,24 +1,14 @@
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Font;
 import javafx.scene.control.Slider;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import java.io.IOException;
 import java.io.File;
 
-import javax.media.Manager;
 import javax.media.Player;
 
 import java.net.URL;
 
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.AudioFileFormat;
 
 
