@@ -21,7 +21,7 @@ public class MP3Player implements Runnable {
     private AudioFileFormat songData;
     private volatile boolean status;//Thread status monitor.
 
-    private long currentTime,pastTime,songTime;
+    private long startingTime,currentTime,pastTime,songTime;
     private float songFrames,frameSpeed;
     private String output;
     private TextArea timer;
@@ -31,6 +31,7 @@ public class MP3Player implements Runnable {
     protected MP3Player() {
         status = true;
 
+        startingTime = 0;
         currentTime = 0;
         pastTime = 0;
         output = new String();
@@ -115,6 +116,14 @@ public class MP3Player implements Runnable {
     }
 
 
+    public long getStartingTime() {
+        return startingTime;
+    }
+    public void setStartingTime(long newStartingTime) {
+        startingTime = newStartingTime;
+    }
+
+
     public long getCurrentTime() {
         return currentTime;
     }
@@ -140,7 +149,7 @@ public class MP3Player implements Runnable {
 
 
     public void run() {//Run method simply begins stream. Stopping this will restart the song, similar to stop button in music player.
-        long startingTime = System.currentTimeMillis()/1000;
+        startingTime = System.currentTimeMillis()/1000;
         songPlayer.start();
 
         while((System.currentTimeMillis()/1000) < startingTime + songTime) {

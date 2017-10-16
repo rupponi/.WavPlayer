@@ -1,11 +1,15 @@
 import javafx.scene.control.TextArea;
 
+import javax.media.Controller;
+import javax.media.Time;
 import javax.sound.sampled.AudioFileFormat;
 
 
 public class MP3Controller {
     MP3Player mp3Player;
     Thread playerThread;
+    boolean paused = false;
+    long pauseTime = 0;
 
 
     public MP3Controller() {
@@ -14,8 +18,25 @@ public class MP3Controller {
     }
 
     public void play() {
-        playerThread.start();
+        if (!paused) {
+            playerThread.start();
+            mp3Player.stop();
+        } else {
+            mp3Player.setStartingTime(System.currentTimeMillis()/1000 - pauseTime);
+            playerThread.resume();
+            mp3Player.getSongPlayer().start();
+        }
+    }
 
-        mp3Player.stop();
+    public void pause() {
+        playerThread.suspend();
+        paused = true;
+        pauseTime = mp3Player.getCurrentTime();
+        mp3Player.getSongPlayer().stop();
+    }
+
+    public void resume() {
+        playerThread.notify();
+
     }
 }

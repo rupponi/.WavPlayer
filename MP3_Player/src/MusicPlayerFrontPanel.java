@@ -115,7 +115,13 @@ public class MusicPlayerFrontPanel extends Application{
                         playButton.setGraphic(pauseImageView);
                     }
                     else if (controller.mp3Player.getSongPlayer().getState() == Controller.Started) {
-                        controller.mp3Player.getSongPlayer().stop();
+                        controller.pause();
+
+                        Image resumeView = new Image(getClass().getResourceAsStream("play.png"));
+                        ImageView resumeImageView = new ImageView(resumeView);
+                        resumeImageView.setFitHeight(50.0);
+                        resumeImageView.setFitWidth(50.0);
+                        playButton.setGraphic(resumeImageView);
                     }
                 } else {
                     Alert noSongWarning = new Alert(Alert.AlertType.WARNING);
@@ -193,7 +199,7 @@ public class MusicPlayerFrontPanel extends Application{
         endTime.setTextFill(Color.GRAY);
 
         TextArea timer = controller.mp3Player.getTimer();
-        timer.setMinHeight(25);
+        timer.setMinHeight(45);
         timer.setMinWidth(100);
         timer.setStyle("-fx-background-color: linear-gradient(#858589,#5e5e61)");
         timer.setStyle("-fx-font-alignment: center");
