@@ -242,7 +242,7 @@ public class MusicPlayerFrontPanel extends Application{
         frontPanel.setTop(cornerButtons);
         frontPanel.setCenter(container);
         frontPanel.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID, CornerRadii.EMPTY,BorderWidths.DEFAULT)));
-        frontPanel.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
+        frontPanel.setStyle("-fx-background-color: linear-gradient(#afafaf,#000000)");
 
         Scene mainScene = new Scene(frontPanel,720,350);
 

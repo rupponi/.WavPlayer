@@ -28,6 +28,7 @@ public class MP3Player implements Runnable {
     private Slider timeSlider;
 
 
+
     protected MP3Player() {
         status = true;
 
