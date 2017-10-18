@@ -53,8 +53,7 @@ public class MP3Player implements Runnable {
         timeSlider.setMin(0);
         timeSlider.setMajorTickUnit(60);
         timeSlider.setBlockIncrement(1);
-        timeSlider.setStyle("-fx-control-inner-background: #c0c0c0");
-        timeSlider.setStyle("-fx-color: #c0c0c0");
+        timeSlider.setStyle("-fx-control-inner-background: #00ecff");
 
 
     }

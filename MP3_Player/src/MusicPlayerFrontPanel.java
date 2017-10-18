@@ -222,8 +222,6 @@ public class MusicPlayerFrontPanel extends Application{
         TextArea timer = controller.mp3Player.getTimer();
         timer.setMinHeight(24);
         timer.setMaxWidth(70);
-        timer.setStyle("-fx-background-color: linear-gradient(#858589,#5e5e61)");
-        timer.setStyle("-fx-font-alignment: center");
 
         timerBox.setAlignment(Pos.BASELINE_CENTER);
         timerBox.getChildren().addAll(startTime,controller.mp3Player.getTimeSlider(),endTime);
