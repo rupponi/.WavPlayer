@@ -72,6 +72,7 @@ public class MusicPlayerFrontPanel extends Application{
                    controller.mp3Player.setSongFile(new File(selector.songPath));
                    controller.mp3Player.setSongData(AudioSystem.getAudioFileFormat(controller.mp3Player.getSongFile()));
 
+
                    controller.mp3Player.setSongFrames(controller.mp3Player.getSongData().getFrameLength());
                    controller.mp3Player.setFrameSpeed(controller.mp3Player.getSongData().getFormat().getFrameRate());
 
