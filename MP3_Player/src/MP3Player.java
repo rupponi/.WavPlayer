@@ -2,6 +2,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.text.Font;
 import javafx.scene.control.Slider;
 
+import javafx.geometry.Insets;
 import java.nio.file.Path;
 import java.io.File;
 
@@ -41,17 +42,19 @@ public class MP3Player implements Runnable {
         output = new String();
 
         timer = new TextArea();
-        timer.setMaxHeight(40);
-        timer.setMaxWidth(85);
+        timer.setMaxHeight(25);
+        timer.setMaxWidth(80);
+        timer.setWrapText(true);
         timer.setEditable(false);
-        timer.setStyle("-fx-font-family: monospace");
-        timer.setFont(Font.font("Arial Black", 12.0));
+        timer.setFont(Font.font("Times New Roman", 12.0));
 
         timeSlider = new Slider();
-        timeSlider.setMinSize(300,50);
+        timeSlider.setMinSize(500,50);
         timeSlider.setMin(0);
         timeSlider.setMajorTickUnit(60);
         timeSlider.setBlockIncrement(1);
+        timeSlider.setStyle("-fx-control-inner-background: #c0c0c0");
+        timeSlider.setStyle("-fx-color: #c0c0c0");
 
 
     }

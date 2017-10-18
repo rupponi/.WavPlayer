@@ -12,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javafx.event.ActionEvent;
@@ -208,7 +209,7 @@ public class MusicPlayerFrontPanel extends Application{
 
         //This VBox songTimer contains the timerBox with the slider and labels of startTime and endTime as well as the timer box that holds the song time.
         songTimer.setAlignment(Pos.BASELINE_CENTER);
-        songTimer.setPadding(new Insets(15,20,15,20));
+        songTimer.setPadding(new Insets(5,20,5,20));
         songTimer.setSpacing(15);
 
         startTime.setText("0:00");
@@ -219,8 +220,8 @@ public class MusicPlayerFrontPanel extends Application{
 
         //This timer box will hold the current song time progression.
         TextArea timer = controller.mp3Player.getTimer();
-        timer.setMinHeight(25);
-        timer.setMinWidth(100);
+        timer.setMinHeight(24);
+        timer.setMaxWidth(70);
         timer.setStyle("-fx-background-color: linear-gradient(#858589,#5e5e61)");
         timer.setStyle("-fx-font-alignment: center");
 
@@ -235,18 +236,29 @@ public class MusicPlayerFrontPanel extends Application{
         cornerButtons.getChildren().addAll(minimizeButton,fullScreenButton,exitButton);
 
         //Add the slider and labels along with the song timer text bos to the songTimer VBox. They will be put in vertical order.
-        songTimer.getChildren().addAll(timerBox,timer);
+        songTimer.getChildren().addAll(timer,timerBox);
+        songTimer.setPadding(new Insets(0,20,0,20));
 
         controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
 
         //Formats the box that holds the play button and file access button. They will be put in a horizontal order.
         buttonInterFace.setAlignment(Pos.BASELINE_CENTER);
-        buttonInterFace.setPadding(new Insets(15,20,15,20));
+        buttonInterFace.setPadding(new Insets(0,20,0,20));
         buttonInterFace.setSpacing(30);
         buttonInterFace.getChildren().addAll(playButton,fileButton);
 
+        Label playerTitle = new Label(".WavPlayer");
+        playerTitle.setMinHeight(50);
+        playerTitle.setMinWidth(150);
+        playerTitle.setAlignment(Pos.BASELINE_RIGHT);
+        playerTitle.setFont(Font.font("Broadway",40));
+
+        HBox titleHolder = new HBox();
+        titleHolder.setAlignment(Pos.BASELINE_CENTER);
+        titleHolder.getChildren().add(playerTitle);
+
         //Container holds both the songTimer box and buttonInterface box. They will be ordered vertically.
-        container.getChildren().addAll(songTimer,buttonInterFace);
+        container.getChildren().addAll(titleHolder,buttonInterFace, songTimer);
 
         //This BorderPane is what is seen on the application. The top section holds the corner buttons and the center holds the content play and access buttons as well as the timer and slider.
         frontPanel.setTop(cornerButtons);
