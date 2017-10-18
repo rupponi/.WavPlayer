@@ -76,12 +76,22 @@ public class MusicPlayerFrontPanel extends Application{
 
                    controller.mp3Player.setSongPath(Paths.get(selector.songPath));
                    controller.mp3Player.setSongURL(controller.mp3Player.getSongPath().toUri().toURL());
+
+                   if (controller.mp3Player.getSongPlayer() != null) {
+                       controller.mp3Player.getSongPlayer().close();
+                       controller.mp3Player.resetPlayer();
+                       controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d", controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
+                       controller.mp3Player.getTimeSlider().setValue(0);
+                   }
+
                    controller.mp3Player.setSongPlayer(Manager.createRealizedPlayer(controller.mp3Player.getSongURL()));
 
                    controller.mp3Player.setSongTime(((int) (controller.mp3Player.getSongFrames() / controller.mp3Player.getFrameSpeed())));
 
                    controller.mp3Player.getTimeSlider().setMax((int) controller.mp3Player.getSongTime());
                    endTime.setText(String.format("%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
+
+                   selector.importFinished = false;
                } catch (Exception ex) {
                    ex.printStackTrace();
                }
@@ -202,14 +212,14 @@ public class MusicPlayerFrontPanel extends Application{
         songTimer.setSpacing(15);
 
         startTime.setText("0:00");
-        startTime.setTextFill(Color.GRAY);
+        startTime.setTextFill(Color.WHITE);
 
         endTime.setText(String.format("%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
-        endTime.setTextFill(Color.GRAY);
+        endTime.setTextFill(Color.WHITE);
 
         //This timer box will hold the current song time progression.
         TextArea timer = controller.mp3Player.getTimer();
-        timer.setMinHeight(45);
+        timer.setMinHeight(25);
         timer.setMinWidth(100);
         timer.setStyle("-fx-background-color: linear-gradient(#858589,#5e5e61)");
         timer.setStyle("-fx-font-alignment: center");

@@ -1,9 +1,5 @@
 import java.io.File;
 
-public class MP3Converter implements Runnable {
+public class MP3Converter {
 
-    public void run() {
-
-    }
-    
 }

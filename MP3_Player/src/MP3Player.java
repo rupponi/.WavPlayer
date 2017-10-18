@@ -27,10 +27,13 @@ public class MP3Player implements Runnable {
     private TextArea timer;
     private Slider timeSlider;
 
+    private boolean resetNeeded;
+
 
 
     protected MP3Player() {
         status = true;
+        resetNeeded = false;
 
         startingTime = 0;
         currentTime = 0;
@@ -149,6 +152,10 @@ public class MP3Player implements Runnable {
     }
 
 
+    public void resetPlayer() {
+        resetNeeded = true;
+    }
+
     public void run() {//Run method simply begins stream. Stopping this will restart the song, similar to stop button in music player.
         startingTime = System.currentTimeMillis()/1000;
         songPlayer.start();
@@ -160,6 +167,10 @@ public class MP3Player implements Runnable {
             if (currentTime != pastTime) {
                 output = String.format("%d:%02d/%d:%02d",currentTime/60,currentTime-(currentTime/60)*60, songTime/60,songTime-(songTime/60)*60);
                 timer.setText(output);
+                if (resetNeeded) {
+                    startingTime = System.currentTimeMillis()/1000;
+                    resetNeeded = false;
+                }
                 timeSlider.setValue(currentTime);
             }
         }
