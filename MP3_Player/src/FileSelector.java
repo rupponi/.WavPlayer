@@ -10,9 +10,9 @@ public class FileSelector {
 
     public void findFile() {
         fileImport = new FileDialog(new JFrame());
+        fileImport.toFront();
         while (!importFinished) {
             fileImport.setVisible(true);
-
 
             inputFiles = fileImport.getFiles();
 

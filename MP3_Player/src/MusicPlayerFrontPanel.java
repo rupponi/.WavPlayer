@@ -152,6 +152,13 @@ public class MusicPlayerFrontPanel extends Application{
         });
 
 
+        //Formats the box that holds the play button and file access button. They will be put in a horizontal order.
+        buttonInterFace.setAlignment(Pos.BASELINE_CENTER);
+        buttonInterFace.setPadding(new Insets(0,20,0,20));
+        buttonInterFace.setSpacing(30);
+        buttonInterFace.getChildren().addAll(playButton,fileButton);
+
+
         //*******MINIMIZE BUTTON*******//
         Button minimizeButton = new Button();
         minimizeButton.setText("-");
@@ -181,8 +188,14 @@ public class MusicPlayerFrontPanel extends Application{
             public void handle(ActionEvent fullScreen) {
                 if (!musicStage.isMaximized()) {//Case: Screen isn't in maximized state yet.
                     musicStage.setMaximized(true);
+                    controller.mp3Player.getTimeSlider().setMinSize(1200,50);
+                    buttonInterFace.setPadding(new Insets(490,0,0,0));
+                    timerBox.setPadding(new Insets(10,0,10,0));
                 } else {//Case: Screen is already maximized.
                     musicStage.setMaximized(false);
+                    controller.mp3Player.getTimeSlider().setMinSize(500,50);
+                    buttonInterFace.setPadding(new Insets(0,0,0,0));
+                    timerBox.setPadding(new Insets(0,0,0,0));
                 }
             }
         });
@@ -240,11 +253,6 @@ public class MusicPlayerFrontPanel extends Application{
 
         controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
 
-        //Formats the box that holds the play button and file access button. They will be put in a horizontal order.
-        buttonInterFace.setAlignment(Pos.BASELINE_CENTER);
-        buttonInterFace.setPadding(new Insets(0,20,0,20));
-        buttonInterFace.setSpacing(30);
-        buttonInterFace.getChildren().addAll(playButton,fileButton);
 
         Label playerTitle = new Label(".WavPlayer");
         playerTitle.setMinHeight(50);
