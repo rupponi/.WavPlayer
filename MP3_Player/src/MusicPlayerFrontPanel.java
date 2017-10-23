@@ -35,6 +35,7 @@ public class MusicPlayerFrontPanel extends Application{
 
     MP3Controller controller = new MP3Controller();
     static FileSelector selector = new FileSelector();
+    MP3Converter mp3ToWavConverter = new MP3Converter();
 
     public static void main(String[] args) {
         launch(args);
@@ -131,8 +132,20 @@ public class MusicPlayerFrontPanel extends Application{
                 while (!selector.importFinished) {
                     selector.findFile();
                 }
+
                 try {
-                    controller.mp3Player.setSongFile(new File(selector.songPath));
+
+                    if (selector.songPath.endsWith("wav")) {
+                        controller.mp3Player.setSongFile(new File(selector.songPath));
+                    }
+
+                    if (selector.songPath.endsWith("mp3")) {
+                        mp3ToWavConverter.convertToWav(selector.inputFiles[0]);
+                        selector.songPath = mp3ToWavConverter.convertedWav.getAbsolutePath();
+                        controller.mp3Player.setSongFile(new File(selector.songPath));
+                    }
+
+
                     controller.mp3Player.setSongData(AudioSystem.getAudioFileFormat(controller.mp3Player.getSongFile()));
 
 
