@@ -1,8 +1,5 @@
 import java.awt.FileDialog;
 import java.io.File;
-import java.io.FilenameFilter;
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
 import javax.swing.JFrame;
 
 public class FileSelector {
