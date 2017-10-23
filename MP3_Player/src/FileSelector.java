@@ -1,5 +1,6 @@
 import java.awt.FileDialog;
 import java.io.File;
+import java.io.FilenameFilter;
 import javax.swing.JFrame;
 
 public class FileSelector {
@@ -13,7 +14,6 @@ public class FileSelector {
         fileImport.toFront();
         while (!importFinished) {
             fileImport.setVisible(true);
-
             inputFiles = fileImport.getFiles();
 
             if (inputFiles.length > 0) {

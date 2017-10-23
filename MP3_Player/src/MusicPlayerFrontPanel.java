@@ -23,6 +23,7 @@ import javafx.stage.StageStyle;
 
 import javax.media.Controller;
 import javax.media.Manager;
+import javax.media.Player;
 import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
 import java.io.File;
@@ -56,58 +57,13 @@ public class MusicPlayerFrontPanel extends Application{
         Label endTime = new Label();
 
 
-        //*******FILE BUTTON*******//
-        Button fileButton = new Button();
-        fileButton.setText("Select Song");
-        fileButton.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
-        fileButton.setTextFill(Color.WHITE);
-
-        //FILE BUTTON LISTENER
-        fileButton.setOnAction(new EventHandler<ActionEvent>() {
-           public void handle(ActionEvent fileAccess) {
-               while (!selector.importFinished) {
-                   selector.findFile();
-               }
-               try {
-                   controller.mp3Player.setSongFile(new File(selector.songPath));
-                   controller.mp3Player.setSongData(AudioSystem.getAudioFileFormat(controller.mp3Player.getSongFile()));
-
-
-                   controller.mp3Player.setSongFrames(controller.mp3Player.getSongData().getFrameLength());
-                   controller.mp3Player.setFrameSpeed(controller.mp3Player.getSongData().getFormat().getFrameRate());
-
-                   controller.mp3Player.setSongPath(Paths.get(selector.songPath));
-                   controller.mp3Player.setSongURL(controller.mp3Player.getSongPath().toUri().toURL());
-
-                   if (controller.mp3Player.getSongPlayer() != null) {
-                       controller.mp3Player.getSongPlayer().close();
-                       controller.mp3Player.resetPlayer();
-                       controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d", controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
-                       controller.mp3Player.getTimeSlider().setValue(0);
-                   }
-
-                   controller.mp3Player.setSongPlayer(Manager.createRealizedPlayer(controller.mp3Player.getSongURL()));
-
-                   controller.mp3Player.setSongTime(((int) (controller.mp3Player.getSongFrames() / controller.mp3Player.getFrameSpeed())));
-
-                   controller.mp3Player.getTimeSlider().setMax((int) controller.mp3Player.getSongTime());
-                   endTime.setText(String.format("%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
-
-                   selector.importFinished = false;
-               } catch (Exception ex) {
-                   ex.printStackTrace();
-               }
-           }
-        });
-
-
-        //******* PLAY BUTTON *******//
-        Button playButton = new Button();
+        //******* PLAY/PAUSE BUTTON *******//
+        Button playPauseButton = new Button();
         Image playImage = new Image(getClass().getResourceAsStream("play.png"));
         ImageView playImageView = new ImageView(playImage);
         playImageView.setFitHeight(50.0);
         playImageView.setFitWidth(50.0);
-        playButton.setGraphic(playImageView);
+        playPauseButton.setGraphic(playImageView);
 
         //SPACE TO CONTAIN THE PLAY.PNG / PAUSE.PNG IMAGES FOR BUTTON
         Circle playCircle = new Circle();
@@ -115,14 +71,14 @@ public class MusicPlayerFrontPanel extends Application{
         playCircle.maxHeight(40);
         playCircle.maxWidth(40);
 
-        playButton.setMaxHeight(40);
-        playButton.setMaxWidth(40);
-        playButton.setShape(playCircle);
-        playButton.setStyle("-fx-background-color: #0a0a0a");
-        playButton.setTextFill(Color.WHITE);
+        playPauseButton.setMaxHeight(40);
+        playPauseButton.setMaxWidth(40);
+        playPauseButton.setShape(playCircle);
+        playPauseButton.setStyle("-fx-background-color: #0a0a0a");
+        playPauseButton.setTextFill(Color.WHITE);
 
-        //PLAY BUTTON LISTENER
-        playButton.setOnAction(new EventHandler<ActionEvent>() {
+        //PLAY/PAUSE BUTTON LISTENER
+        playPauseButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent playClicked) {
                 if (controller.mp3Player.getSongPlayer() != null) {//IF THERE IS A LOADED SONG, PLAYER WILL NOT BE NULL.
                     if ((controller.mp3Player.getSongPlayer().getState() != Controller.Started)) {
@@ -131,7 +87,7 @@ public class MusicPlayerFrontPanel extends Application{
                         ImageView pauseImageView = new ImageView(pauseView);
                         pauseImageView.setFitHeight(50.0);
                         pauseImageView.setFitWidth(50.0);
-                        playButton.setGraphic(pauseImageView);
+                        playPauseButton.setGraphic(pauseImageView);
                     }
                     else if (controller.mp3Player.getSongPlayer().getState() == Controller.Started) {//IF PLAYER IS IN STARTED STATE, RE-CLICK OF PLAY BUTTON WILL PAUSE OPERATION.
                         controller.pause();
@@ -140,7 +96,7 @@ public class MusicPlayerFrontPanel extends Application{
                         ImageView resumeImageView = new ImageView(resumeView);
                         resumeImageView.setFitHeight(50.0);
                         resumeImageView.setFitWidth(50.0);
-                        playButton.setGraphic(resumeImageView);
+                        playPauseButton.setGraphic(resumeImageView);
                     }
                 } else {//IF SONG IS NOT PICKED, POST ALERT THAT USER MUST PICK A SONG FIRST.
                     Alert noSongWarning = new Alert(Alert.AlertType.WARNING);
@@ -152,11 +108,68 @@ public class MusicPlayerFrontPanel extends Application{
         });
 
 
+
+        //*******FILE BUTTON*******//
+        Button fileButton = new Button();
+        fileButton.setText("Select Song");
+        fileButton.setStyle("-fx-background-color: linear-gradient(#4d4d4e,#0a0a0a)");
+        fileButton.setTextFill(Color.WHITE);
+
+        //FILE BUTTON LISTENER
+        fileButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent fileAccess) {
+                if ((controller.mp3Player.getSongPlayer() != null) && (controller.mp3Player.getSongPlayer().getState() == Player.Started)) {
+                    controller.pause();
+
+                    Image resumeView = new Image(getClass().getResourceAsStream("play.png"));
+                    ImageView resumeImageView = new ImageView(resumeView);
+                    resumeImageView.setFitHeight(50.0);
+                    resumeImageView.setFitWidth(50.0);
+                    playPauseButton.setGraphic(resumeImageView);
+                }
+
+                while (!selector.importFinished) {
+                    selector.findFile();
+                }
+                try {
+                    controller.mp3Player.setSongFile(new File(selector.songPath));
+                    controller.mp3Player.setSongData(AudioSystem.getAudioFileFormat(controller.mp3Player.getSongFile()));
+
+
+                    controller.mp3Player.setSongFrames(controller.mp3Player.getSongData().getFrameLength());
+                    controller.mp3Player.setFrameSpeed(controller.mp3Player.getSongData().getFormat().getFrameRate());
+
+                    controller.mp3Player.setSongPath(Paths.get(selector.songPath));
+                    controller.mp3Player.setSongURL(controller.mp3Player.getSongPath().toUri().toURL());
+
+                    if (controller.mp3Player.getSongPlayer() != null) {
+                        controller.mp3Player.getSongPlayer().close();
+                        controller.mp3Player.resetPlayer();
+                        controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d", controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
+                        controller.mp3Player.getTimeSlider().setValue(0);
+                    }
+
+                    controller.mp3Player.setSongPlayer(Manager.createRealizedPlayer(controller.mp3Player.getSongURL()));
+
+                    controller.mp3Player.setSongTime(((int) (controller.mp3Player.getSongFrames() / controller.mp3Player.getFrameSpeed())));
+
+                    controller.mp3Player.getTimeSlider().setMax((int) controller.mp3Player.getSongTime());
+                    endTime.setText(String.format("%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
+
+                    selector.importFinished = false;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+
+
         //Formats the box that holds the play button and file access button. They will be put in a horizontal order.
         buttonInterFace.setAlignment(Pos.BASELINE_CENTER);
         buttonInterFace.setPadding(new Insets(0,20,0,20));
         buttonInterFace.setSpacing(30);
-        buttonInterFace.getChildren().addAll(playButton,fileButton);
+        buttonInterFace.getChildren().addAll(playPauseButton,fileButton);
 
 
         //*******MINIMIZE BUTTON*******//
