@@ -4,7 +4,9 @@
     <root id="archive" name=".WavPlayer.jar">
       <element id="module-output" name=".WavPlayer" />
       <element id="extracted-dir" path="$PROJECT_DIR$/jffmpeg-1.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/commons-io-2.5.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/jmf-2.1.1e.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jave-1.0.2.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

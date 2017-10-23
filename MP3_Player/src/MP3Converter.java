@@ -46,11 +46,4 @@ public class MP3Converter {
             ex.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
-        MP3Converter converter = new MP3Converter();
-        FileSelector selector = new FileSelector();
-        selector.findFile();
-        converter.convertToWav(selector.inputFiles[0]);
-    }
 }
