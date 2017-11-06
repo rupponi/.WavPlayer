@@ -127,50 +127,50 @@ public class MusicPlayerFrontPanel extends Application{
                     resumeImageView.setFitWidth(50.0);
                     playPauseButton.setGraphic(resumeImageView);
                 }
-
+                selector.importFinished = false;
                 while (!selector.importFinished) {
                     selector.findFile();
                 }
+                if (selector.songPath != null) {
+                    try {
+                        if (selector.songPath.endsWith("wav")) {
+                            controller.mp3Player.setSongFile(new File(selector.songPath));
+                        }
 
-                try {
+                        if (selector.songPath.endsWith("mp3")) {
+                            mp3ToWavConverter.convertToWav(selector.inputFiles[0]);
+                            selector.songPath = mp3ToWavConverter.convertedWav.getAbsolutePath();
+                            controller.mp3Player.setSongFile(new File(selector.songPath));
+                        }
 
-                    if (selector.songPath.endsWith("wav")) {
-                        controller.mp3Player.setSongFile(new File(selector.songPath));
+
+                        controller.mp3Player.setSongData(AudioSystem.getAudioFileFormat(controller.mp3Player.getSongFile()));
+
+
+                        controller.mp3Player.setSongFrames(controller.mp3Player.getSongData().getFrameLength());
+                        controller.mp3Player.setFrameSpeed(controller.mp3Player.getSongData().getFormat().getFrameRate());
+
+                        controller.mp3Player.setSongPath(Paths.get(selector.songPath));
+                        controller.mp3Player.setSongURL(controller.mp3Player.getSongPath().toUri().toURL());
+
+                        if (controller.mp3Player.getSongPlayer() != null) {
+                            controller.mp3Player.getSongPlayer().close();
+                            controller.mp3Player.resetPlayer();
+                            controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d", controller.mp3Player.getSongTime() / 60, controller.mp3Player.getSongTime() - (controller.mp3Player.getSongTime() / 60) * 60));
+                            controller.mp3Player.getTimeSlider().setValue(0);
+                        }
+
+                        controller.mp3Player.setSongPlayer(Manager.createRealizedPlayer(controller.mp3Player.getSongURL()));
+
+                        controller.mp3Player.setSongTime(((int) (controller.mp3Player.getSongFrames() / controller.mp3Player.getFrameSpeed())));
+
+                        controller.mp3Player.getTimeSlider().setMax((int) controller.mp3Player.getSongTime());
+                        endTime.setText(String.format("%d:%02d", controller.mp3Player.getSongTime() / 60, controller.mp3Player.getSongTime() - (controller.mp3Player.getSongTime() / 60) * 60));
+
+                        selector.importFinished = false;
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
-
-                    if (selector.songPath.endsWith("mp3")) {
-                        mp3ToWavConverter.convertToWav(selector.inputFiles[0]);
-                        selector.songPath = mp3ToWavConverter.convertedWav.getAbsolutePath();
-                        controller.mp3Player.setSongFile(new File(selector.songPath));
-                    }
-
-
-                    controller.mp3Player.setSongData(AudioSystem.getAudioFileFormat(controller.mp3Player.getSongFile()));
-
-
-                    controller.mp3Player.setSongFrames(controller.mp3Player.getSongData().getFrameLength());
-                    controller.mp3Player.setFrameSpeed(controller.mp3Player.getSongData().getFormat().getFrameRate());
-
-                    controller.mp3Player.setSongPath(Paths.get(selector.songPath));
-                    controller.mp3Player.setSongURL(controller.mp3Player.getSongPath().toUri().toURL());
-
-                    if (controller.mp3Player.getSongPlayer() != null) {
-                        controller.mp3Player.getSongPlayer().close();
-                        controller.mp3Player.resetPlayer();
-                        controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d", controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
-                        controller.mp3Player.getTimeSlider().setValue(0);
-                    }
-
-                    controller.mp3Player.setSongPlayer(Manager.createRealizedPlayer(controller.mp3Player.getSongURL()));
-
-                    controller.mp3Player.setSongTime(((int) (controller.mp3Player.getSongFrames() / controller.mp3Player.getFrameSpeed())));
-
-                    controller.mp3Player.getTimeSlider().setMax((int) controller.mp3Player.getSongTime());
-                    endTime.setText(String.format("%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
-
-                    selector.importFinished = false;
-                } catch (Exception ex) {
-                    ex.printStackTrace();
                 }
             }
         });

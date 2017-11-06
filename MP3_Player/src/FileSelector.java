@@ -19,6 +19,9 @@ public class FileSelector {
                 songPath = (fileImport.getFiles()[0].getAbsolutePath());
                 importFinished = true;
             }
+            if (fileImport.getFile() == null) {
+                importFinished = true;
+            }
         }
     }
 
