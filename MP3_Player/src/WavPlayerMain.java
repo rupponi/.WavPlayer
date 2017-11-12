@@ -30,7 +30,7 @@ import java.nio.file.Paths;
 
 
 
-public class MusicPlayerFrontPanel extends Application{
+public class WavPlayerMain extends Application{
 
     MP3Controller controller = new MP3Controller();
     static FileSelector selector = new FileSelector();
